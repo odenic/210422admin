@@ -1,7 +1,27 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <el-button icon="el-icon-plus" type="primary">添加品牌</el-button>
+      <el-button icon="el-icon-plus" type="primary" @click="dialogVisible = true">添加品牌</el-button>
+      <el-dialog
+        title="添加品牌"
+        :visible="dialogVisible"
+        width="30%"
+      >
+        <el-upload
+          class="upload-demo"
+          action="http://39.98.123.211/admin/product/fileUpload"
+          headers="post"
+          list-type="picture"
+          :limit="1"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
       <el-table
         ref="singleTable"
         v-loading="loading"
@@ -55,7 +75,9 @@ export default {
   data() {
     return {
       list: {},
-      loading: false
+      loading: false,
+      dialogVisible: false,
+      uoload: ''
     }
   },
   mounted() {

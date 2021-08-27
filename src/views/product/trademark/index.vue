@@ -28,8 +28,10 @@
           </template>
         </el-table-column>
         <el-table-column property="address" label="操作" align="center">
-          <el-button icon="el-icon-edit" type="warning" size="small">修改</el-button>
-          <el-button icon="el-icon-delete-solid" type="danger" size="small">删除</el-button>
+          <template v-slot="{ row }">
+            <el-button icon="el-icon-edit" type="warning" size="small">修改</el-button>
+            <el-button icon="el-icon-delete-solid" type="danger" size="small" @click="deleteTrademark(row.id)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import { reqGetTrademark } from '@/api/product.js'
+import { reqGetTrademark, delTardemark } from '@/api/trademark.js'
 
 export default {
   name: 'Trademark',
@@ -76,6 +78,17 @@ export default {
     },
     handleSizeChange(size) {
       this.getSpu(this.list.current + '', size + '')
+    },
+    async deleteTrademark(id) {
+      try {
+        this.loading = true
+        await delTardemark(id)
+        this.loading = false
+        this.getSpu(this.list.current + '', this.list.size + '')
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+      }
     }
   }
 }

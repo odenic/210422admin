@@ -1,10 +1,27 @@
 <template>
-  <div>商品管理</div>
+  <div>
+    <CategorySelector :disabled="isShow" />
+    <AttrList v-show="!isShow" :show.sync="isShow" />
+    <AddandUpdate v-show="isShow" :show.sync="isShow" />
+  </div>
 </template>
 
 <script>
+import CategorySelector from '@/components/CategorySelector/index.vue'
+import AttrList from './AttrList/index.vue'
+import AddandUpdate from './AddanUpdate/index.vue'
 export default {
-  name: 'Attr'
+  name: 'Attr',
+  components: {
+    CategorySelector,
+    AttrList,
+    AddandUpdate
+  },
+  data() {
+    return {
+      isShow: false
+    }
+  }
 }
 </script>
 

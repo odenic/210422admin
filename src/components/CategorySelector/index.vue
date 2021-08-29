@@ -67,9 +67,12 @@ export default {
   mounted() {
     this.getCategory1()
   },
+  beforeDestroy() {
+    this.RESET()
+  },
   methods: {
     ...mapActions('category', ['getCategory1', 'getCategory2', 'getCategory3']),
-    ...mapMutations('category', ['SET_CATEGORY3ID'])
+    ...mapMutations('category', ['SET_CATEGORY3ID', 'RESET'])
   }
 }
 </script>

@@ -26,24 +26,27 @@
           }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column property="address" label="操作" align="center">
+      <el-table-column label="操作">
         <template v-slot="{ row }">
-          <el-tooltip class="item" effect="dark" content="修改" placement="top" :open-delay="200">
+          <el-tooltip class="item" effect="dark" content="修改属性" placement="top" :open-delay="200">
             <el-button
               icon="el-icon-edit"
               type="warning"
               size="small"
-              @click="revise(row.id, row.tmName, row.logoUrl)"
             />
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="删除" placement="top" :open-delay="200">
-            <el-button
-              icon="el-icon-delete-solid"
-              type="danger"
-              size="small"
-              @click="deleteTrademark(row.id, row.tmName)"
-            />
-          </el-tooltip>
+          <el-popconfirm
+            confirm-button-text="好的"
+            cancel-button-text="不用了"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定删除？"
+            @onConfirm="delAttr(row.id)"
+          >
+            <el-tooltip slot="reference" class="item" effect="dark" content="删除属性" placement="top">
+              <el-button icon="el-icon-delete-solid" type="danger" size="small" />
+            </el-tooltip>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -51,7 +54,7 @@
 </template>
 
 <script>
-import { reqgetAttrList } from '@/api/attr'
+import { reqgetAttrList, reqDelAttr } from '@/api/attr'
 import { mapState } from 'vuex'
 export default {
   name: 'AttrList',
@@ -69,13 +72,33 @@ export default {
     ])
   },
   watch: {
-    async category3Id(n) {
-      if (n) {
-        this.loading = true
-        const list = await reqgetAttrList(this.category1Id, this.category2Id, n)
-        this.list = list.data
-        this.loading = false
+    category3Id: {
+      async handler(n) {
+        if (n) {
+          this.getAttrList(n)
+        }
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    async delAttr(id) {
+      try {
+        await reqDelAttr(id)
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        this.getAttrList(this.category3Id)
+      } catch (error) {
+        this.$message.error('删除失败')
       }
+    },
+    async getAttrList(id) {
+      this.loading = true
+      const list = await reqgetAttrList(this.category1Id, this.category2Id, id)
+      this.list = list.data
+      this.loading = false
     }
   }
 }
@@ -87,5 +110,8 @@ export default {
 }
 .btn{
   margin-bottom: 15px;
+}
+.item{
+  margin-right: 10px;
 }
 </style>

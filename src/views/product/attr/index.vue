@@ -1,8 +1,8 @@
 <template>
   <div>
     <CategorySelector :disabled="isShow" />
-    <AttrList v-show="!isShow" :show.sync="isShow" />
-    <AddandUpdate v-show="isShow" :show.sync="isShow" />
+    <AttrList v-if="!isShow" :show.sync="isShow" />
+    <AddandUpdate v-if="isShow" :show.sync="isShow" />
   </div>
 </template>
 

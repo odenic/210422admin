@@ -31,6 +31,14 @@ const mutations = {
   },
   SET_CATEGORY3ID: (state, id) => {
     state.category3Id = id
+  },
+  RESET(state) {
+    state.category1Id = ''
+    state.category2Id = ''
+    state.category3Id = ''
+    state.category1List = []
+    state.category2List = []
+    state.category3List = []
   }
 }
 

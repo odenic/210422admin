@@ -38,4 +38,11 @@ function reviseTardemark(id, logoUrl, tmName) {
   })
 }
 
-export { reqGetTrademark, postTardemark, delTardemark, reviseTardemark }
+function reqGetTrademarkList() {
+  return request({
+    url: `/admin/product/baseTrademark/getTrademarkList`,
+    method: 'get'
+  })
+}
+
+export { reqGetTrademark, postTardemark, delTardemark, reviseTardemark, reqGetTrademarkList }

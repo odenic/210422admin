@@ -7,7 +7,7 @@
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column type="index" width="50" align="center" />
+      <el-table-column type="index" width="50" align="center" label="序号" />
       <el-table-column
         property="attrName"
         label="属性名称"

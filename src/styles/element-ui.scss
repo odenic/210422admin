@@ -51,3 +51,9 @@
 .el-pagination__total,.el-pagination__sizes{
   float: right;
 }
+
+.upload{
+  .el-upload--picture-card{
+    display: none;
+  }
+}

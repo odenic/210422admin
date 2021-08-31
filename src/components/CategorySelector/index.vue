@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card cards">
     <div slot="header" class="clearfix">
-      <span>属性管理</span>
+      <span>{{ name }}</span>
     </div>
     <el-form :disabled="disabled">
       <el-select
@@ -52,7 +52,11 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   name: 'CategorySelector',
   props: {
-    disabled: Boolean
+    disabled: Boolean,
+    name: {
+      type: String,
+      default: '属性管理'
+    }
   },
   computed: {
     ...mapState('category', [

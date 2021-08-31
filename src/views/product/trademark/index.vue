@@ -159,10 +159,10 @@ export default {
       const isJPG = type.includes(file.type)
       const isLt500kb = file.size / 1024 <= 5
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 或 png 格式!')
+        this.$message.error('上传图片只能是 JPG 或 png 格式!')
       }
       if (!isLt500kb) {
-        this.$message.error('上传头像图片大小不能超过 500KB!')
+        this.$message.error('上传图片大小不能超过 500KB!')
       }
       return isJPG && isLt500kb
     },

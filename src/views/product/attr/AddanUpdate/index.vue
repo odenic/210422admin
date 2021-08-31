@@ -52,17 +52,27 @@ import { reqAddAttr } from '@/api/attr'
 import { mapState } from 'vuex'
 export default {
   name: 'AddandUpdate',
+  props: {
+    name: {
+      type: String,
+      default: ''
+    },
+    list: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       ruleForm: {
-        attrName: ''
+        attrName: this.name
       },
       rules: {
         attrName: [
           { required: true, message: '请输入属性名称', trigger: 'blur' }
         ]
       },
-      attrValueList: []
+      attrValueList: this.list
     }
   },
   computed: {

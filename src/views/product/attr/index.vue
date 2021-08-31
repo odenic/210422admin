@@ -2,7 +2,7 @@
   <div>
     <CategorySelector :disabled="isShow" />
     <AttrList v-if="!isShow" :show.sync="isShow" />
-    <AddandUpdate v-if="isShow" :show.sync="isShow" />
+    <AddandUpdate v-if="isShow" :show.sync="isShow" :name="name" :list="list" />
   </div>
 </template>
 
@@ -19,7 +19,9 @@ export default {
   },
   data() {
     return {
-      isShow: false
+      isShow: false,
+      name: '',
+      list: []
     }
   }
 }

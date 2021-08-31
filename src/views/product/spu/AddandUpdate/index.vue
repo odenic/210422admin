@@ -102,9 +102,10 @@ export default {
     const checkAttrList = (rule, value, callback) => {
       if (value.length <= 0) {
         callback(new Error('请至少添加一个属性名'))
-      }
-      if (value[0].spuSaleAttrValueList.length <= 0) {
-        callback(new Error('请至少添加一个属性值'))
+      } else {
+        if (value[0].spuSaleAttrValueList.length <= 0) {
+          callback(new Error('请至少添加一个属性值'))
+        }
       }
       callback()
     }

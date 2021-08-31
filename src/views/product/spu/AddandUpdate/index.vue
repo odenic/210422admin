@@ -103,8 +103,8 @@ export default {
       if (value.length <= 0) {
         callback(new Error('请至少添加一个属性名'))
       } else {
-        if (value[0].spuSaleAttrValueList.length <= 0) {
-          callback(new Error('请至少添加一个属性值'))
+        if (value.some(item => item.spuSaleAttrValueList.length <= 0)) {
+          callback(new Error('请至少为每一个属性添加一个属性值'))
         }
       }
       callback()

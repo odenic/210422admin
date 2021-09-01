@@ -43,7 +43,7 @@
     <el-button type="primary" class="btnsmall" @click="addAttr">确定</el-button>
     <el-button
       class="btnsmall"
-      @click="$emit('update:show', false)"
+      @click="cancel"
     >取消</el-button>
   </el-card>
 </template>
@@ -53,26 +53,27 @@ import { mapState } from 'vuex'
 export default {
   name: 'AddandUpdate',
   props: {
-    name: {
-      type: String,
-      default: ''
-    },
-    list: {
-      type: Array,
-      default: () => []
+    attr: {
+      type: Object,
+      default: () => ({
+        id: '',
+        attrName: '',
+        attrValueList: []
+      })
     }
   },
   data() {
     return {
       ruleForm: {
-        attrName: this.name
+        attrName: this.attr.attrName
       },
       rules: {
         attrName: [
           { required: true, message: '请输入属性名称', trigger: 'blur' }
         ]
       },
-      attrValueList: this.list
+      attrValueList: this.attr.attrValueList,
+      id: this.attr.id
     }
   },
   computed: {
@@ -99,6 +100,14 @@ export default {
         this.$refs[`inp${index}`].focus()
       })
     },
+    cancel() {
+      this.$emit('setAttr', {
+        id: '',
+        attrName: '',
+        attrValueList: []
+      })
+      this.$emit('update:show', false)
+    },
     async addAttr() {
       const { attrValueList, ruleForm: { attrName }} = this
       if (!attrName) {
@@ -113,13 +122,19 @@ export default {
         attrName,
         attrValueList,
         'categoryId': this.category3Id,
-        'categoryLevel': 3
+        'categoryLevel': 3,
+        id: this.id ? this.id : ''
       }
       try {
         await reqAddAttr(data)
         this.$message({
-          message: '添加成功',
+          message: !this.id ? '添加成功' : '修改成功',
           type: 'success'
+        })
+        this.$emit('setAttr', {
+          id: '',
+          attrName: '',
+          attrValueList: []
         })
         this.$emit('update:show', false)
       } catch (error) {

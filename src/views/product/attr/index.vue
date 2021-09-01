@@ -1,8 +1,8 @@
 <template>
   <div>
     <CategorySelector :disabled="isShow" />
-    <AttrList v-if="!isShow" :show.sync="isShow" />
-    <AddandUpdate v-if="isShow" :show.sync="isShow" :name="name" :list="list" />
+    <AttrList v-if="!isShow" :show.sync="isShow" @setAttr="attr = $event" />
+    <AddandUpdate v-if="isShow" :attr="attr" :show.sync="isShow" @setAttr="attr = $event" />
   </div>
 </template>
 
@@ -20,8 +20,11 @@ export default {
   data() {
     return {
       isShow: false,
-      name: '',
-      list: []
+      attr: {
+        id: '',
+        attrName: '',
+        attrValueList: []
+      }
     }
   }
 }

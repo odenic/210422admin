@@ -33,6 +33,7 @@
               icon="el-icon-edit"
               type="warning"
               size="small"
+              @click="editAttr(row)"
             />
           </el-tooltip>
           <el-popconfirm
@@ -99,6 +100,10 @@ export default {
       const list = await reqgetAttrList(this.category1Id, this.category2Id, id)
       this.list = list.data
       this.loading = false
+    },
+    editAttr(row) {
+      this.$emit('setAttr', row)
+      this.$emit('update:show', true)
     }
   }
 }

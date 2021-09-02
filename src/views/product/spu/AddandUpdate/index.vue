@@ -79,7 +79,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
-        <el-button @click="$emit('update:show', false)">取消</el-button>
+        <el-button @click="$emit('update:show', 1)">取消</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -209,7 +209,7 @@ export default {
               message: '添加成功',
               type: 'success'
             })
-            this.$emit('update:show', false)
+            this.$emit('update:show', 1)
           } catch (error) {
             this.$message({
               message: '添加失败',

@@ -32,4 +32,34 @@ function reqDelSpu(spuId) {
   })
 }
 
-export { reqgetSpuList, getBaseSaleAttrList, uploadSpuInfo, reqDelSpu }
+function reqGetSpuImageList(spuId) {
+  return request({
+    url: `/admin/product/spuImageList/${spuId}`,
+    method: 'get'
+  })
+}
+
+function reqGetSpuSaleAttrList(spuId) {
+  return request({
+    url: `/admin/product/spuSaleAttrList/${spuId}`,
+    method: 'get'
+  })
+}
+
+function reqSaveSkuInfo(data) {
+  return request({
+    url: `/admin/product/saveSkuInfo`,
+    method: 'post',
+    data
+  })
+}
+
+export {
+  reqgetSpuList,
+  getBaseSaleAttrList,
+  uploadSpuInfo,
+  reqDelSpu,
+  reqGetSpuImageList,
+  reqGetSpuSaleAttrList,
+  reqSaveSkuInfo
+}

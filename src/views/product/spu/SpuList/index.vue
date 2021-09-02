@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card cards">
-    <el-button icon="el-icon-plus" type="primary" class="btn" :disabled="!category3Id" @click="$emit('update:show', true)">添加SPU</el-button>
+    <el-button icon="el-icon-plus" type="primary" class="btn" :disabled="!category3Id" @click="$emit('update:show', 2)">添加SPU</el-button>
     <el-table
       v-loading="loading"
       :data="list"
@@ -30,15 +30,15 @@
         <template v-slot="{ row }">
           <el-tooltip
             effect="dark"
-            content="增加属性"
+            content="增加SKU"
             placement="top"
             :open-delay="200"
           >
-            <el-button icon="el-icon-plus" type="primary" size="small" />
+            <el-button icon="el-icon-plus" type="primary" size="small" @click="editSpu(row.id,row.spuName)" />
           </el-tooltip>
           <el-tooltip
             effect="dark"
-            content="修改属性"
+            content="修改SPU"
             placement="top"
             :open-delay="200"
           >
@@ -47,7 +47,7 @@
           <el-tooltip
             class="item"
             effect="dark"
-            content="查看属性"
+            content="查看SKU列表"
             placement="top"
             :open-delay="200"
           >
@@ -65,7 +65,7 @@
               slot="reference"
               class="item"
               effect="dark"
-              content="删除属性"
+              content="删除SPU"
               placement="top"
             >
               <el-button icon="el-icon-delete-solid" type="danger" size="small" />
@@ -148,6 +148,10 @@ export default {
           type: 'error'
         })
       }
+    },
+    editSpu(id, name) {
+      this.$emit('update:show', 3)
+      this.$emit('setSpuInfo', { id, name })
     }
   }
 }

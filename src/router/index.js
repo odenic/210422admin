@@ -100,12 +100,12 @@ export const constantRoutes = [
   },
 
   {
-    path: '/nested',
+    path: '/access',
     component: Layout,
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: 'Nested',
+      title: '权限管理',
       icon: 'nested'
     }
   },

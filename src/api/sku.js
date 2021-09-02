@@ -8,4 +8,32 @@ function reqSaveSkuInfo(data) {
   })
 }
 
-export { reqSaveSkuInfo }
+function reqGetSkuList(page, limit) {
+  return request({
+    url: `/admin/product/list/${page}/${limit}`,
+    method: 'get'
+  })
+}
+
+function reqDelSku(skuId) {
+  return request({
+    url: `/admin/product/deleteSku/${skuId}`,
+    method: 'delete'
+  })
+}
+
+function reqOnSale(skuId) {
+  return request({
+    url: `/admin/product/onSale/${skuId}`,
+    method: 'get'
+  })
+}
+
+function reqCancellSale(skuId) {
+  return request({
+    url: `/admin/product/cancelSale/${skuId}`,
+    method: 'get'
+  })
+}
+
+export { reqSaveSkuInfo, reqGetSkuList, reqDelSku, reqOnSale, reqCancellSale }

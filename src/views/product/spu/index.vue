@@ -1,8 +1,8 @@
 <template>
   <div>
     <CategorySelector :name="'Spu管理'" :disabled="isShow !== 1" />
-    <SpuList v-if="isShow === 1" :show.sync="isShow" @setSpuInfo="spuInfo = $event" />
-    <AddandUpdate v-if="isShow === 2" :show.sync="isShow" />
+    <SpuList v-if="isShow === 1" :show.sync="isShow" @setSpuInfo="spuInfo = $event" @setSpuId="spuId = $event" />
+    <AddandUpdate v-if="isShow === 2" :id="spuId" :show.sync="isShow" />
     <AddSku v-if="isShow === 3" :info="spuInfo" :show.sync="isShow" />
   </div>
 </template>
@@ -23,7 +23,8 @@ export default {
   data() {
     return {
       isShow: 1,
-      spuInfo: {}
+      spuInfo: {},
+      spuId: NaN
     }
   }
 }

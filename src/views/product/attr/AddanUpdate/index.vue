@@ -128,7 +128,7 @@ export default {
       try {
         await reqAddAttr(data)
         this.$message({
-          message: !this.id ? '添加成功' : '修改成功',
+          message: `${this.id ? '修改' : '添加'}成功`,
           type: 'success'
         })
         this.$emit('setAttr', {
@@ -138,7 +138,7 @@ export default {
         })
         this.$emit('update:show', false)
       } catch (error) {
-        this.$message.error('添加失败')
+        this.$message.error(`${this.id ? '修改' : '添加'}失败`)
       }
     }
   }

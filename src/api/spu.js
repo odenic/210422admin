@@ -46,9 +46,16 @@ function reqGetSpuSaleAttrList(spuId) {
   })
 }
 
-function reqSaveSkuInfo(data) {
+function reqGetSpuById(spuId) {
   return request({
-    url: `/admin/product/saveSkuInfo`,
+    url: `/admin/product/getSpuById/${spuId}`,
+    method: 'get'
+  })
+}
+
+function reqUpdateSpuInfo(data) {
+  return request({
+    url: `/admin/product/updateSpuInfo`,
     method: 'post',
     data
   })
@@ -61,5 +68,7 @@ export {
   reqDelSpu,
   reqGetSpuImageList,
   reqGetSpuSaleAttrList,
-  reqSaveSkuInfo
+  reqGetSpuById,
+  reqUpdateSpuInfo
 }
+

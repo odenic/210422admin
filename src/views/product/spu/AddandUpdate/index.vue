@@ -86,11 +86,17 @@
 </template>
 
 <script>
-import { getBaseSaleAttrList, uploadSpuInfo } from '@/api/spu'
+import { getBaseSaleAttrList, uploadSpuInfo, reqGetSpuById, reqUpdateSpuInfo } from '@/api/spu'
 import { reqGetTrademarkList } from '@/api/trademark'
 import { mapState } from 'vuex'
 export default {
   name: 'AddandUpdate',
+  props: {
+    id: {
+      type: Number,
+      default: NaN
+    }
+  },
   data() {
     const checkImg = (rule, value, callback) => {
       if (value.length <= 0) {
@@ -110,6 +116,7 @@ export default {
       callback()
     }
     return {
+      spuId: this.id,
       baseSaleAttrList: [],
       trademarkList: [],
       baseSaleAttrId: '',
@@ -162,6 +169,13 @@ export default {
     if (trademarkList.status === 'fulfilled') {
       this.trademarkList = trademarkList.value.data
     }
+    if (this.spuId) {
+      const { data } = await reqGetSpuById(this.spuId)
+      this.spu.spuName = data.spuName
+      this.spu.tmId = data.tmId
+      this.spu.description = data.description
+      this.spu.spuSaleAttrList = data.spuSaleAttrList
+    }
   },
   methods: {
     handlePictureCardPreview(file) {
@@ -196,6 +210,7 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const data = {
+            id: this.spuId ? this.spuId : '',
             category3Id: this.category3Id,
             description: this.spu.description,
             spuImageList: this.spu.spuImageList,
@@ -204,15 +219,15 @@ export default {
             tmId: this.spu.tmId
           }
           try {
-            await uploadSpuInfo(data)
+            await this.spuId ? reqUpdateSpuInfo(data) : uploadSpuInfo(data)
             this.$message({
-              message: '添加成功',
+              message: `${this.spuId ? '修改' : '添加'}成功`,
               type: 'success'
             })
             this.$emit('update:show', 1)
           } catch (error) {
             this.$message({
-              message: '添加失败',
+              message: `${this.spuId ? '修改' : '添加'}失败`,
               type: 'error'
             })
           }

@@ -116,7 +116,8 @@
 <script>
 import { mapState } from 'vuex'
 import { reqgetAttrList } from '@/api/attr'
-import { reqGetSpuSaleAttrList, reqGetSpuImageList, reqSaveSkuInfo } from '@/api/spu'
+import { reqGetSpuSaleAttrList, reqGetSpuImageList } from '@/api/spu'
+import { reqSaveSkuInfo } from '@/api/sku'
 export default {
   name: 'AddSku',
   props: {

@@ -34,7 +34,7 @@
             placement="top"
             :open-delay="200"
           >
-            <el-button icon="el-icon-plus" type="primary" size="small" @click="editSpu(row.id,row.spuName)" />
+            <el-button icon="el-icon-plus" type="primary" size="small" @click="addSku(row.id,row.spuName)" />
           </el-tooltip>
           <el-tooltip
             effect="dark"
@@ -42,7 +42,7 @@
             placement="top"
             :open-delay="200"
           >
-            <el-button icon="el-icon-edit" type="warning" size="small" />
+            <el-button icon="el-icon-edit" type="warning" size="small" @click="editSpu(row.id)" />
           </el-tooltip>
           <el-tooltip
             class="item"
@@ -149,9 +149,13 @@ export default {
         })
       }
     },
-    editSpu(id, name) {
+    addSku(id, name) {
       this.$emit('update:show', 3)
       this.$emit('setSpuInfo', { id, name })
+    },
+    editSpu(id) {
+      this.$emit('update:show', 2)
+      this.$emit('setSpuId', id)
     }
   }
 }

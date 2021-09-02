@@ -79,7 +79,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
-        <el-button @click="$emit('update:show', 1)">取消</el-button>
+        <el-button @click="cancel">取消</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -224,6 +224,7 @@ export default {
               message: `${this.spuId ? '修改' : '添加'}成功`,
               type: 'success'
             })
+            this.$emit('setSpuId', NaN)
             this.$emit('update:show', 1)
           } catch (error) {
             this.$message({
@@ -268,6 +269,10 @@ export default {
     },
     handleClose(index1, index2) {
       this.spu.spuSaleAttrList[index1].spuSaleAttrValueList.splice(index2, 1)
+    },
+    cancel() {
+      this.$emit('update:show', 1)
+      this.$emit('setSpuId', NaN)
     }
   }
 }

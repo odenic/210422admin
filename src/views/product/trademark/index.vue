@@ -166,7 +166,6 @@ export default {
       }
       return isJPG && isLt500kb
     },
-    // 提交或修改品牌
     submitForm() {
       this.$refs['ruleForm'].validate(async(valid) => {
         if (valid) {

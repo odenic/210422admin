@@ -102,12 +102,38 @@ export const constantRoutes = [
   {
     path: '/access',
     component: Layout,
-    redirect: '/nested/menu1',
+    redirect: '/access/permission',
     name: 'Nested',
     meta: {
       title: '权限管理',
       icon: 'nested'
-    }
+    },
+    children: [
+      {
+        path: '/access/permission',
+        component: () => import('@/views/acces/permission'),
+        name: 'Permission',
+        meta: {
+          title: '菜单管理'
+        }
+      },
+      {
+        path: '/access/role',
+        component: () => import('@/views/acces/role'),
+        name: 'Role',
+        meta: {
+          title: '角色管理'
+        }
+      },
+      {
+        path: '/access/user',
+        component: () => import('@/views/acces/user'),
+        name: 'User',
+        meta: {
+          title: '用户管理'
+        }
+      }
+    ]
   },
 
   // 404 page must be placed at the end !!!

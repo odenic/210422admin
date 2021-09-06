@@ -1,62 +1,35 @@
 <template>
   <el-card class="statistics">
-    <div class="header">
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="访问量" name="first" />
-        <el-tab-pane label="销售额" name="second" />
-      </el-tabs>
-      <div class="block">
-        <span class="demonstration" @click="setToday">今日</span>
-        <span class="demonstration" @click="setWeek">本周</span>
-        <span class="demonstration" @click="setMonth">本月</span>
-        <span class="demonstration" @click="setYear">本年</span>
-        <el-date-picker
-          v-model="date"
-          class="date"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          value-format="yyyy-MM-dd"
-        />
-      </div>
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="销售额" name="sale" />
+      <el-tab-pane label="访问量" name="visit" />
+    </el-tabs>
+    <div class="block">
+      <span class="demonstration" @click="setToday">今日</span>
+      <span class="demonstration" @click="setWeek">本周</span>
+      <span class="demonstration" @click="setMonth">本月</span>
+      <span class="demonstration" @click="setYear">本年</span>
+      <el-date-picker
+        v-model="date"
+        class="date"
+        type="daterange"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        value-format="yyyy-MM-dd"
+      />
     </div>
     <el-row :gutter="20">
       <el-col :sm="24" :lg="18">
-        <VisitedChart />
+        <VisitedChart :name="name" :data="chartData" />
       </el-col>
       <el-col :sm="24" :lg="6">
-        <p class="sales-data-title">门店访问量排名</p>
+        <p class="sales-data-title">{{ name }}</p>
         <ul class="sales-data-list">
-          <li>
-            <span class="sales-data-index active">1</span>
-            <span class="sales-data-name">xxx</span>
-            <span class="sales-data-value">1232312</span>
-          </li>
-          <li>
-            <span class="sales-data-index active">1</span>
-            <span class="sales-data-name">xxx</span>
-            <span class="sales-data-value">1232312</span>
-          </li>
-          <li>
-            <span class="sales-data-index active">1</span>
-            <span class="sales-data-name">xxx</span>
-            <span class="sales-data-value">1232312</span>
-          </li>
-          <li>
-            <span class="sales-data-index">1</span>
-            <span class="sales-data-name">xxx</span>
-            <span class="sales-data-value">1232312</span>
-          </li>
-          <li>
-            <span class="sales-data-index">1</span>
-            <span class="sales-data-name">xxx</span>
-            <span class="sales-data-value">1232312</span>
-          </li>
-          <li>
-            <span class="sales-data-index">1</span>
-            <span class="sales-data-name">xxx</span>
-            <span class="sales-data-value">1232312</span>
+          <li v-for="item,index in list" :key="index">
+            <span :class="item.no<=3?'sales-data-index active':'sales-data-index'">{{ item.no }}</span>
+            <span class="sales-data-name">{{ item.name }}</span>
+            <span class="sales-data-value">{{ item.money || item.user }}</span>
           </li>
         </ul>
       </el-col>
@@ -67,6 +40,7 @@
 <script>
 import dayjs from 'dayjs'
 import VisitedChart from './visitedChart'
+import { mapState } from 'vuex'
 export default {
   name: 'SaleStatistics',
   components: {
@@ -74,8 +48,26 @@ export default {
   },
   data() {
     return {
-      activeName: 'first',
+      activeName: 'sale',
       date: []
+    }
+  },
+  computed: {
+    ...mapState('charts', ['data']),
+    name() {
+      return this.activeName === 'sale' ? '门店销售量排名' : '门店访问量排名'
+    },
+    list() {
+      if (this.data.chartData) {
+        return this.activeName === 'sale' ? this.data.chartData.orderRank : this.data.chartData.userRank
+      }
+      return undefined
+    },
+    chartData() {
+      if (this.data.chartData) {
+        return this.activeName === 'sale' ? this.data.chartData.orderFullYear : this.data.chartData.userFullYear
+      }
+      return undefined
     }
   },
   methods: {
@@ -84,18 +76,32 @@ export default {
       this.date = [date, date]
     },
     setWeek() {
-      const start = dayjs().startOf('week').add(1, 'day').format('YYYY-MM-DD')
-      const end = dayjs().endOf('week').add(1, 'day').format('YYYY-MM-DD')
+      const start = dayjs()
+        .startOf('week')
+        .add(1, 'day')
+        .format('YYYY-MM-DD')
+      const end = dayjs()
+        .endOf('week')
+        .add(1, 'day')
+        .format('YYYY-MM-DD')
       this.date = [start, end]
     },
     setMonth() {
-      const start = dayjs().startOf('month').format('YYYY-MM-DD')
-      const end = dayjs().endOf('month').format('YYYY-MM-DD')
+      const start = dayjs()
+        .startOf('month')
+        .format('YYYY-MM-DD')
+      const end = dayjs()
+        .endOf('month')
+        .format('YYYY-MM-DD')
       this.date = [start, end]
     },
     setYear() {
-      const start = dayjs().startOf('year').format('YYYY-MM-DD')
-      const end = dayjs().endOf('year').format('YYYY-MM-DD')
+      const start = dayjs()
+        .startOf('year')
+        .format('YYYY-MM-DD')
+      const end = dayjs()
+        .endOf('year')
+        .format('YYYY-MM-DD')
       this.date = [start, end]
     }
   }
@@ -108,15 +114,11 @@ export default {
   margin-bottom: 10px;
   position: relative;
 }
-.demonstration{
+.demonstration {
   margin: 0 10px;
 }
-.date{
+.date {
   margin-left: 10px;
-}
-.header{
-  display: flex;
-  justify-content: space-between;
 }
 .sales-data-title {
   font-size: 14px;
@@ -148,12 +150,16 @@ export default {
     color: #fafafa;
   }
 }
-
 .sales-data-name {
   float: left;
   margin-left: 30px;
 }
 .sales-data-value {
   float: right;
+}
+.block {
+  position: absolute;
+  right: 20px;
+  top: 15px;
 }
 </style>

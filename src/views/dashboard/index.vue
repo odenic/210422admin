@@ -1,61 +1,61 @@
 <template>
   <div class="dashboard-container">
-    <el-row :gutter="10">
+    <el-row v-if="data.chartData" :gutter="10">
       <el-col :xs="24" :sm="12" :lg="6">
-        <Card :title="'总销售额'" :data="'¥ 126560'">
+        <Card :title="'总销售额'" :data="`¥ ${data.chartData.salesTotal}`">
           <div class="chart">
-            <span>周同比</span>
+            <span>月同比</span>
             <span
               class="abc"
-            >56.67%<i
-              style="color:red;margin:0 4px"
+            >{{ data.chartData.salesGrowthLastMonth }}%<i
+              :class="data.chartData.salesGrowthLastMonth>0?'rise':'decline'"
               class="el-icon-caret-top"
             /></span>
             <span>日同比</span>
             <span
               class="abc"
-            >76.999%<i
-              style="color:green;margin:0 4px"
+            >{{ data.chartData.salesGrowthLastDay }}%<i
+              :class="data.chartData.salesGrowthLastDay>0?'rise':'decline'"
               class="el-icon-caret-bottom"
             /></span>
           </div>
           <template #footer>
-            <div class="footer">日销售额 ¥ 126560</div>
+            <div class="footer">日销售额 ¥ {{ data.chartData.salesToday }}</div>
           </template>
         </Card>
       </el-col>
       <el-col :xs="24" :sm="12" :lg="6">
-        <Card :title="'访问量'" :data="'46856'">
+        <Card :title="'访问量'" :data="data.chartData.visitTotal+''">
           <LineCharts />
           <template #footer>
-            <div class="footer">日访问量 1245</div>
+            <div class="footer">日访问量 {{ data.chartData.visitToday }}</div>
           </template>
         </Card>
       </el-col>
       <el-col :xs="24" :sm="12" :lg="6">
-        <Card :title="'支付笔数'" :data="'84855'">
+        <Card :title="'支付笔数'" :data="data.chartData.payTotal+''">
           <BarCharts />
           <template #footer>
-            <div class="footer">转化率 66%</div>
+            <div class="footer">转化率 {{ data.chartData.payRate }}</div>
           </template>
         </Card>
       </el-col>
       <el-col :xs="24" :sm="12" :lg="6">
-        <Card :title="'运营活动效果'" :data="'78%'">
+        <Card :title="'运营活动效果'" :data="`${data.chartData.activityRate}%`">
           <BarCharts2 />
           <template #footer>
-            <div class="footer"><span>周同比</span>
+            <div class="footer"><span>月同比</span>
               <span
                 class="abc"
-              >56.67%<i
-                style="color:red;margin:0 4px"
+              >{{ data.chartData.activityGrowthLastMonth }}%<i
+                :class="data.chartData.activityGrowthLastMonth>0?'rise':'decline'"
                 class="el-icon-caret-top"
               /></span>
               <span>日同比</span>
               <span
                 class="abc"
-              >76.999%<i
-                style="color:green;margin:0 4px"
+              >{{ data.chartData.activityGrowthLastDay }}%<i
+                :class="data.chartData.activityGrowthLastDay>0?'rise':'decline'"
                 class="el-icon-caret-bottom"
               /></span></div>
           </template>
@@ -74,6 +74,8 @@ import BarCharts from './bar'
 import BarCharts2 from './bar2'
 import SaleStatistics from './saleStatistics'
 import Footer from './footer'
+
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Dashboard',
   components: {
@@ -83,6 +85,15 @@ export default {
     BarCharts2,
     SaleStatistics,
     Footer
+  },
+  computed: {
+    ...mapState('charts', ['data'])
+  },
+  async mounted() {
+    await this.getChartsData()
+  },
+  methods: {
+    ...mapActions('charts', ['getChartsData'])
   }
 }
 </script>
@@ -109,5 +120,13 @@ export default {
 }
 .footer{
   margin-top: 10px;
+}
+.rise{
+  color: red;
+  margin: 0 4px;
+}
+.decline{
+  color: green;
+  margin: 0 4px;
 }
 </style>

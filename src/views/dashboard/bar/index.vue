@@ -4,8 +4,12 @@
 
 <script>
 import * as echarts from 'echarts'
+import { mapState } from 'vuex'
 export default {
   name: 'BarCharts',
+  computed: {
+    ...mapState('charts', ['data'])
+  },
   mounted() {
     const chart1 = echarts.init(this.$refs['Bar'])
     var option = {
@@ -22,6 +26,8 @@ export default {
           '羊毛衫',
           '雪纺衫',
           '裤子',
+          '高跟鞋',
+          '袜子',
           '高跟鞋',
           '袜子'
         ],
@@ -40,7 +46,7 @@ export default {
         {
           name: '销量',
           type: 'bar',
-          data: [5, 20, 36, 10, 10, 20, 20, 36, 10, 10, 20, 55],
+          data: this.data.chartData.payTrend,
           silent: true
         }
       ]

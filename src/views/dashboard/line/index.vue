@@ -4,14 +4,18 @@
 
 <script>
 import * as echarts from 'echarts'
+import { mapState } from 'vuex'
 export default {
   name: 'BarCharts',
+  computed: {
+    ...mapState('charts', ['data'])
+  },
   mounted() {
     const chart1 = echarts.init(this.$refs['Line'])
     var option1 = {
       tooltip: {},
       xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
+        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子', '裤子', '高跟鞋', '袜子', '裤子', '高跟鞋', '袜子'],
         show: false
       },
       yAxis: {
@@ -26,7 +30,7 @@ export default {
       series: [{
         name: '销量',
         type: 'line',
-        data: [5, 20, 36, 10, 10, 20],
+        data: this.data.chartData.visitTrend,
         itemStyle: {
           opacity: 0
         },

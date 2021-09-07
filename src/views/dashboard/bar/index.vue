@@ -5,8 +5,10 @@
 <script>
 import * as echarts from 'echarts'
 import { mapState } from 'vuex'
+import resize from '@/mixins/resize'
 export default {
   name: 'BarCharts',
+  mixins: [resize],
   computed: {
     ...mapState('charts', ['data'])
   },

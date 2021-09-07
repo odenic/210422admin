@@ -4,8 +4,11 @@
 
 <script>
 import * as echarts from 'echarts'
+import resize from '@/mixins/resize'
+
 export default {
   name: 'BarCharts2',
+  mixins: [resize],
   mounted() {
     const chart1 = echarts.init(this.$refs['Bar2'])
     const option = {

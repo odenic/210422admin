@@ -1,19 +1,8 @@
 <template>
-  <el-card>
+  <el-card class="searchCard">
     <template #header>
       <div class="search-header">
         <span>线上热门搜索</span>
-
-        <el-dropdown>
-          <i class="el-icon-more" />
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>黄金糕</el-dropdown-item>
-            <el-dropdown-item>狮子头</el-dropdown-item>
-            <el-dropdown-item>螺蛳粉</el-dropdown-item>
-            <el-dropdown-item>双皮奶</el-dropdown-item>
-            <el-dropdown-item>蚵仔煎</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
       </div>
     </template>
 
@@ -24,20 +13,24 @@
 
     <el-table :data="tableData" size="small" border class="search-table">
       <el-table-column label="排名" type="index" width="80" />
-      <el-table-column label="搜索关键字" width="180" />
-      <el-table-column label="用户数" sortable />
-      <el-table-column label="周涨幅" sortable />
+      <el-table-column label="搜索关键字" width="180" prop="word" />
+      <el-table-column label="用户数" sortable prop="user" />
+      <el-table-column label="搜索次数" sortable prop="count" />
     </el-table>
     <el-pagination
       class="search-pagination"
       layout="prev, pager, next"
-      :total="1000"
+      :total="45"
+      :page-size="5"
+      :current-page="page"
+      @current-change="handleCurrentChange"
     />
   </el-card>
 </template>
 
 <script>
 import SearchChart from './searchChart'
+import { mapState } from 'vuex'
 export default {
   name: 'Search',
   components: {
@@ -57,7 +50,26 @@ export default {
         precent: -26.2,
         data: [20, 15, 35, 22, 30, 10, 45]
       },
-      tableData: [{}]
+      tableData: [{}],
+      page: 1
+    }
+  },
+  computed: {
+    ...mapState('charts', ['data'])
+  },
+  watch: {
+    page() {
+      const start = (this.page - 1) * 5
+      const end = start + 5
+      this.tableData = this.data.chartData.searchWord.slice(start, end)
+    },
+    data() {
+      this.tableData = this.data.chartData.searchWord.slice(0, 5)
+    }
+  },
+  methods: {
+    handleCurrentChange(current) {
+      this.page = current
     }
   }
 }
@@ -72,4 +84,10 @@ export default {
 .search-pagination
   float: right
   margin-bottom: 10px
+  position: absolute
+  bottom: 0
+  right: 20px
+.searchCard
+  height: 499px
+  position: relative
 </style>

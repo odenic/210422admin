@@ -5,16 +5,14 @@
 <script>
 import * as echarts from 'echarts'
 import { mapState } from 'vuex'
-import resize from '@/mixins/resize'
 
 export default {
   name: 'BarCharts',
-  mixins: [resize],
   computed: {
     ...mapState('charts', ['data'])
   },
   mounted() {
-    const chart1 = echarts.init(this.$refs['Line'])
+    const myChart = echarts.init(this.$refs['Line'])
     var option1 = {
       tooltip: {},
       xAxis: {
@@ -58,7 +56,7 @@ export default {
         silent: true
       }]
     }
-    chart1.setOption(option1)
+    myChart.setOption(option1)
   }
 }
 </script>

@@ -4,13 +4,11 @@
 
 <script>
 import * as echarts from 'echarts'
-import resize from '@/mixins/resize'
 
 export default {
   name: 'BarCharts2',
-  mixins: [resize],
   mounted() {
-    const chart1 = echarts.init(this.$refs['Bar2'])
+    const myChart = echarts.init(this.$refs['Bar2'])
     const option = {
       xAxis: {
         show: false,
@@ -41,7 +39,7 @@ export default {
         bottom: 0
       }
     }
-    chart1.setOption(option)
+    myChart.setOption(option)
   }
 }
 </script>

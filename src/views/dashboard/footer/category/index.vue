@@ -19,11 +19,9 @@
 import * as echarts from 'echarts'
 import 'echarts/extension/bmap/bmap'
 import { mapState } from 'vuex'
-import resize from '@/mixins/resize'
 
 export default {
   name: 'Category',
-  mixins: [resize],
   data() {
     return {
       category: '全部渠道',
@@ -101,7 +99,7 @@ export default {
     options: {
       deep: true,
       handler(n) {
-        this.myEcharts.setOption(n)
+        this.myChart.setOption(n)
       }
     },
     chartsData(n) {
@@ -111,12 +109,12 @@ export default {
     }
   },
   mounted() {
-    this.myEcharts = echarts.init(this.$refs.charts)
-    this.myEcharts.setOption(this.options)
+    this.myChart = echarts.init(this.$refs.charts)
+    this.myChart.setOption(this.options)
 
-    this.myEcharts.on('mouseover', params => {
+    this.myChart.on('mouseover', params => {
       const { name, value } = params.data
-      this.myEcharts.setOption({
+      this.myChart.setOption({
         title: {
           text: name,
           subtext: value

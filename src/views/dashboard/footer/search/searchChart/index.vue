@@ -64,11 +64,9 @@
 <script>
 import * as echarts from 'echarts'
 import { mapState } from 'vuex'
-import resize from '@/mixins/resize'
 
 export default {
   name: 'SearchChart',
-  mixins: [resize],
   props: {
     searchData: Object
   },
@@ -76,8 +74,8 @@ export default {
     ...mapState('charts', ['data'])
   },
   mounted() {
-    this.myEcharts = echarts.init(this.$refs.charts)
-    this.myEcharts.setOption({
+    this.myChart = echarts.init(this.$refs.charts)
+    this.myChart.setOption({
       xAxis: {
         // 等分
         type: 'category',

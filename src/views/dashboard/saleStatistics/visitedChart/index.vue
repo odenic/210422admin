@@ -4,11 +4,9 @@
 
 <script>
 import * as echarts from 'echarts'
-import resize from '@/mixins/resize'
 
 export default {
   name: 'VisitedChart',
-  mixins: [resize],
   props: {
     name: {
       type: String,
